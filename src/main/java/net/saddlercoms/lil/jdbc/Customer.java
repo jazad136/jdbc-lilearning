@@ -13,6 +13,30 @@ public class Customer implements DataTransferObject {
 	,state
 	,zipCode;
 	
+	public Customer() { } 
+	public Customer(String firstName, String lastName, String email, String phone, String address, String city,
+			String state, String zipCode) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
+	}
+	public Customer(long id, String firstName, String lastName, String email, String phone, String address, String city,
+			String state, String zipCode) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.zipCode = zipCode;
+	}
 	/**
 	 * Gets the value of id
 	 */
