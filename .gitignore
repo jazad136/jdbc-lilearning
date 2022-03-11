@@ -1,6 +1,10 @@
 #Saddler
 HowToInstall.txt
 SQL-Scripts
+.classpath
+.project
+.settings
+target/
 
 # Compiled class file
 *.class
