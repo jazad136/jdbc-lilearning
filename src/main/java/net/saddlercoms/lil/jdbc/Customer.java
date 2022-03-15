@@ -74,34 +74,24 @@ public class Customer implements DataTransferObject {
 	 * Sets the value of email
 	 * @param email the email to set
 	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
+	public void setEmail(String email) { this.email = email; }
 	/**
-	 * Sets the value of phone
 	 * Gets the value of phone
 	 */
-	public String getPhone() {
-		return phone;
-	}
+	public String getPhone() { return phone; }
 	/**
+	 * Sets the value of phone
 	 * @param phone the phone to set
 	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+	public void setPhone(String phone) { this.phone = phone; }
 	/**
 	 * Gets the value of address
 	 */
-	public String getAddress() {
-		return address;
-	}
+	public String getAddress() { return address; }
 	/**
 	 * @param address the address to set
 	 */
-	public void setAddress(String address) {
-		this.address = address;
-	}
+	public void setAddress(String address) { this.address = address; }
 	/**
 	 * Gets the value of city
 	 */
@@ -111,31 +101,21 @@ public class Customer implements DataTransferObject {
 	/**
 	 * @param city the city to set
 	 */
-	public void setCity(String city) {
-		this.city = city;
-	}
+	public void setCity(String city) { this.city = city; }
 	/**
 	 * Gets the value of state
 	 */
-	public String getState() {
-		return state;
-	}
+	public String getState() { return state; }
 	/**
 	 * @param state the state to set
 	 */
-	public void setState(String state) {
-		this.state = state;
-	}
+	public void setState(String state) { this.state = state; }
 	/**
 	 * Gets the value of zipCode
 	 */
-	public String getZipCode() {
-		return zipCode;
-	}
+	public String getZipCode() { return zipCode; }
 	/**
 	 * @param zipCode the zipCode to set
 	 */
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
+	public void setZipCode(String zipCode) { this.zipCode = zipCode; }
 }
