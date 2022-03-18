@@ -25,7 +25,8 @@ public class JDBCExecutor5 {
 			Customer customer = customerDAO.findById(10000);
 			customer.setCity("Mount Vernon");
 			customer.setState("VA");
-			customerDAO.update(customer);
+			customer = customerDAO.update(customer);
+			
 			System.out.println("Re-Updated!");
 		} catch(SQLException e) { 
 			e.printStackTrace();
