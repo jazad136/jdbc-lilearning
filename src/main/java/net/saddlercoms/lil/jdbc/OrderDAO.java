@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.saddlercoms.lil.jdbc.util.DataAccessObject;
@@ -34,8 +35,6 @@ public class OrderDAO extends DataAccessObject<Order>{
 			+ "join order_item ol on ol.order_id=o.order_id "
 			+ "join product p on ol.product_id=p.product_id "
 			+ "WHERE o.order_id=?";
-	
-	private static final String GET_FOR_CUST = "SELECT * FROM get_orders_by_customer(?)";
 	
 	/*
 SELECT c.first_name, c.last_name, c.email, o.order_id, o.creation_date, o.total_due, o.status, s.first_name, s.last_name, s.email, ol.quantity
@@ -149,82 +148,6 @@ order_item ol on ol.order_id=o.order_id join product p on ol.product_id=p.produc
 			throw new RuntimeException(e);
 		}
 		return order;
-	}
-	
-	/* 
-	1 cust_first_name varchar(50),
-    2 cust_last_name varchar(50),
-    3 cust_email varchar(50),
-    4 order_id bigint,
-    5 creation_dt timestamp,
-    6 total_due numeric(10,2),
-    7 status varchar(50),
-    8 sales_first_name varchar(50),
-    9 sales_last_name varchar(50),
-    10 sales_email varchar(50),
-    11 item_quanitty int,
-    12 item_code varchar(50),
-    13 item_name varchar(50),
-    14 item_size int,
-    15 item_variety varchar(50),
-    16 item_price numeric(10,2)
-	*/
-	private static final int idxStrSPCustomerFirstName = 1;
-	private static final int idxStrSPCustomerLastName = 2;
-	private static final int idxStrSPCustomerEmail = 3;	
-	private static final int idxLngSPOrderId = 4;
-	private static final int idxDatSPCreationDate = 5;
-	private static final int idxBdcSPTotalDue = 6;
-	private static final int idxStrSPStatus = 7;
-	private static final int idxStrSPSalespersonFirstName = 8;
-	private static final int idxStrSPSalespersonLastName = 9;
-	private static final int idxStrSPSalespersonEmail = 10;
-	private static final int idxIntSPQuantity = 11;
-	private static final int idxStrSPProductCode = 12;
-	private static final int idxStrSPProductName = 13;
-	private static final int idxIntSPProductSize = 14;
-	private static final int idxStrSPProductVariety = 15;
-	private static final int idxBdcSPProductPrice = 16;
-	public List<Order> getOrdersForCustomer(long customerId) { 
-		List<Order> orders = new ArrayList<>();
-		try (PreparedStatement statement = this.connection.prepareStatement(GET_FOR_CUST) ; ) {
-			statement.setLong(1, customerId);
-			ResultSet rs = statement.executeQuery();
-			long orderId = 0;
-			Order order = null;
-			
-			while(rs.next()) { 
-				long localOrderId = rs.getLong(idxLngSPOrderId);
-				if(orderId != localOrderId) { 
-					order = new Order();
-					orders.add(order);
-					order.setId(localOrderId);
-					order.setCustomerFirstName(rs.getString(idxStrSPCustomerFirstName));
-					order.setCustomerLastName(rs.getString(idxStrSPCustomerLastName));
-					order.setCustomerEmail(rs.getString(idxStrSPCustomerEmail));
-					order.setCreationDate(rs.getDate(idxDatSPCreationDate));
-					order.setTotalDue(rs.getBigDecimal(idxBdcSPTotalDue));
-					order.setStatus(rs.getString(idxStrSPStatus));
-					order.setSalespersonFirstName(rs.getString(idxStrSPSalespersonFirstName));
-					order.setSalespersonLastName(rs.getString(idxStrSPSalespersonLastName));
-					order.setSalespersonEmail(rs.getString(idxStrSPSalespersonEmail));
-					List<OrderLine> orderLines = new ArrayList<>();
-					order.setOrderLines(orderLines);
-				}
-				OrderLine orderLine = new OrderLine();
-				orderLine.setQuantity(rs.getInt(idxIntSPQuantity));
-				orderLine.setProductCode(rs.getString(idxStrSPProductCode));
-				orderLine.setProductName(rs.getString(idxStrSPProductName));
-				orderLine.setProductSize(rs.getInt(idxIntSPProductSize));
-				orderLine.setProductVariety(rs.getString(idxStrSPProductVariety));
-				orderLine.setProductPrice(rs.getBigDecimal(idxBdcSPProductPrice));
-				order.getOrderLines().add(orderLine);
-			}
-		} catch(SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		return orders;
 	}
 
 	@Override
