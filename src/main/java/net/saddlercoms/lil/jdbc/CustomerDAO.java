@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.saddlercoms.lil.jdbc.util.DataAccessObject;
@@ -20,6 +21,11 @@ public class CustomerDAO extends DataAccessObject<Customer> {
 			+ "email = ?, phone = ?, address = ?, city = ?, state = ?, zipcode = ? WHERE customer_id = ?";
 	
 	private static final String DELETE = "DELETE FROM customer WHERE customer_id = ?";
+
+	private static final String GET_ALL_LMT = "SELECT customer_id, first_name, last_name, email, phone,"
+			+ "address, city, state, zipcode FROM customer ORDER BY last_name, first_name LIMIT ?";
+	
+	
 	public CustomerDAO(Connection connection) { super(connection); }
 	
 	@Override
@@ -104,5 +110,30 @@ public class CustomerDAO extends DataAccessObject<Customer> {
 			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public List<Customer> findAllSorted(int limit) { 
+		List<Customer> customers = new ArrayList<>();
+		try(PreparedStatement statement = this.connection.prepareStatement(GET_ALL_LMT); ) {
+			statement.setInt(1, limit);
+			ResultSet resultSet = statement.executeQuery();
+			while(resultSet.next()) { 
+				Customer customer = new Customer();
+				customer.setId(resultSet.getLong("customer_id"));
+				customer.setFirstName(resultSet.getString("first_name"));
+				customer.setLastName(resultSet.getString("last_name"));
+				customer.setEmail(resultSet.getString("email"));
+				customer.setPhone(resultSet.getString("phone"));
+				customer.setAddress(resultSet.getString("address"));
+				customer.setCity(resultSet.getString("city"));
+				customer.setState(resultSet.getString("state"));
+				customer.setZipCode(resultSet.getString("zipcode"));
+				customers.add(customer);
+			}
+		} catch(SQLException e) { 
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return customers;
 	}
 }
